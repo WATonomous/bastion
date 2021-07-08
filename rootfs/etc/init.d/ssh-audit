@@ -9,7 +9,8 @@ if [ "${SSH_AUDIT_ENABLED}" == "true" ]; then
 	EOF
 	echo "# valid login shells" > /etc/shells
 	echo "/usr/bin/sudosh" >> /etc/shells
-	echo "session requisite pam_exec.so quiet /usr/bin/sudosh-add-user" > /etc/pam.d/sudosh
+	echo "session requisite pam_exec.so log=/var/log/pam-exec.log quiet /usr/bin/sudosh-add-user" > /etc/pam.d/sudosh
+	echo "session requisite pam_exec.so log=/var/log/pam-exec.log quiet /usr/bin/sudosh-chsh" >> /etc/pam.d/sudosh
 	if [ -w /etc/passwd ]; then
                 usermod -s /usr/bin/sudosh root
 	else

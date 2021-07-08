@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+if [ -z "${PAM_USER}" ]; then
+  echo "ERROR: invalid execution"
+  exit 1
+fi
+
+PASSWD_FILE=/etc/passwd
+
+if [ -w ${PASSWD_FILE} ]; then
+	sed --in-place -E "s/^${PAM_USER}:(.*):[^:]*$/${PAM_USER}:\1:\/usr\/bin\/sudosh/" ${PASSWD_FILE}
+else
+	>&2 echo "Can't edit ${PASSWD_FILE} to update shell for ${PAM_USER}. sudosh will likely not work"
+fi
