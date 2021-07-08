@@ -7,9 +7,10 @@
      \/  \/_/    \_\_|\___/|_| |_|\___/|_| |_| |_|\___/ \__,_|___/
                                                                   
 
-Welcome to the WATonomous bastion host! This is the entrypoint to all of
-our servers. We are getting a server status page up and running. In the
-mean time here are the commonly-used VMs that you can access:
+Welcome to the WATonomous bastion host! This is a hardened machine that serves
+as an entrypoint to our servers that sit behind a firewall. We are working on
+a server status page. In the mean time here are the commonly-used VMs that you
+can access:
 - vm1.thor.watonomous.ca
 - vm1.delta.watonomous.ca
 - ubuntu1.tr.watonomous.ca
