@@ -2,7 +2,8 @@
 auth       include     rate-limit
 auth       required    pam_env.so
 session    optional    pam_umask.so umask=0066
-auth       include     mfa
+# uncomment to enable mfa
+#auth       include     mfa
 account    required    pam_tally2.so
 session    include     sudosh
 session    include     enforcer

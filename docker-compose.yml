@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+    bastion:
+        image: wato-bastion
+        build: .
+        ports:
+            - '22:22'
+        environment:
+            - MFA_PROVIDER=none
+        volumes:
+            - '/etc/passwd:/etc/passwd:ro'
+            - '/etc/shadow:/etc/shadow:ro'
+            - '/etc/group:/etc/group:ro'
+            - '/home:/home'
+        dns:
+            # wato cluster DNS
+            - 10.0.50.254
+            # UWaterloo DNS
+            - 129.97.2.1
+            - 129.97.2.2
+
+#docker run --rm -p 22:22 -e MFA_PROVIDER=google-authenticator -e SSH_AUDIT_ENABLED=false -v /etc/passwd:/etc/passwd:ro -v /etc/shadow:/etc/shadow:ro -v /etc/group:/etc/group:ro -v /home:/home cloudposse/bastion:latest
