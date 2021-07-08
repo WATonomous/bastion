@@ -1,0 +1,17 @@
+#!/bin/bash
+
+REQUIRED_SHELL="$1"
+PASSWD_IN="$2"
+PASSWD_OUT="$3"
+
+
+if [ -f "$PASSWD_OUT" ] && [ ! -w "$PASSWD_OUT" ]; then
+	        >&2 echo "$PASSWD_OUT is not writable!"
+		exit 1
+fi
+
+# Escaping for regex: https://stackoverflow.com/a/2705678
+ESCAPED_SHELL=$(printf '%s\n' "$REQUIRED_SHELL" | sed -e 's/[\/&]/\\&/g')
+
+sed -E "/(\/usr\/sbin\/nologin|\/bin\/false|\/bin\/sync|\/usr\/sbin\/shutdown)$/! s/^(.*):[^:]*$/\1:$ESCAPED_SHELL/" "$PASSWD_IN" > "$PASSWD_OUT"
+

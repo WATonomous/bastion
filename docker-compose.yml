@@ -12,6 +12,9 @@ services:
             - '/etc/shadow:/etc/shadow:ro'
             - '/etc/group:/etc/group:ro'
             - '/home:/home'
+            - './secrets/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key:ro'
+            - './secrets/ssh_host_rsa_key.pub:/etc/ssh/ssh_host_rsa_key.pub:ro'
+        hostname: wato-bastion-secure
         dns:
             # wato cluster DNS
             - 10.0.50.254
