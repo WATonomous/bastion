@@ -17,5 +17,6 @@ if [ ! -f "$SECRETS_PATH" ]; then
 	ssh-keygen -t rsa -f "$SECRETS_PATH" -N ""
 fi
 
-docker-compose up --build
+docker-compose up --build -d
+docker-compose logs -f
 
