@@ -12,6 +12,8 @@ if [ "${SSH_AUDIT_ENABLED}" == "true" ]; then
 	echo "session requisite pam_exec.so quiet /usr/bin/sudosh-add-user" > /etc/pam.d/sudosh
 	if [ -w /etc/passwd ]; then
                 usermod -s /usr/bin/sudosh root
+	else
+		>&2 echo "Unable to write to /etc/passwd. Please manually change user shells to /usr/bin/sudosh for SSH auditing"
 	fi
 else
 	echo "- Disabling SSH Audit Logs"
