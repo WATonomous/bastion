@@ -48,7 +48,7 @@ ChallengeResponseAuthentication yes
 UsePAM yes
 AuthenticationMethods publickey,keyboard-interactive
 AllowAgentForwarding yes
-AllowTcpForwarding no
+AllowTcpForwarding yes
 GatewayPorts no
 X11Forwarding no
 PermitTTY yes
