@@ -1,0 +1,17 @@
+#!/bin/bash
+
+PASSWD_IN=/etc/passwd.host
+PASSWD_FILE=/etc/passwd
+PASSWD_LOCK="/var/lock/`basename ${PASSWD_FILE}`"
+LOCK_WAIT_TIMEOUT=5
+
+if [ -f "${PASSWD_IN}" ]; then
+	echo "- Updating $PASSWD_FILE with $PASSWD_IN"
+	sudosh-update-passwd "$PASSWD_IN" "$PASSWD_FILE"
+	echo "- Watching ${PASSWD_IN} for changes"
+	while true; do
+		flock -w $LOCK_WAIT_TIMEOUT "$PASSWD_LOCK" sudosh-update-passwd "$PASSWD_IN" "$PASSWD_FILE"
+		sleep 5
+	done &
+fi
+

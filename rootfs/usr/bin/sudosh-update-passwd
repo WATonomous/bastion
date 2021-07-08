@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PASSWD_IN="$1"
+PASSWD_FILE="$2"
+PASSWD_TMP=/tmp/passwd.`date +"%FT%H%M%z"`
+
+# copy the input passwd file to the temporary location
+cp "$PASSWD_IN" "$PASSWD_TMP"
+
+for u in `ls /etc/sudoers.d/sudosh-* 2> /dev/null | awk -F - '{ print $2 }'`; do
+	sed --in-place -E "s/^${u}:(.*):[^:]*$/${u}:\1:\/usr\/bin\/sudosh/" "$PASSWD_TMP"
+done
+
+if [ -w "$PASSWD_FILE" ]; then
+	mv "$PASSWD_TMP" "$PASSWD_FILE"
+else
+	>&2 echo "$PASSWD_FILE is not writable! sudosu will probably not work"
+fi
+

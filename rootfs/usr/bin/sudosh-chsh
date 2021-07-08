@@ -8,9 +8,11 @@ if [ -z "${PAM_USER}" ]; then
 fi
 
 PASSWD_FILE=/etc/passwd
+PASSWD_LOCK="/var/lock/`basename ${PASSWD_FILE}`"
+LOCK_WAIT_TIMEOUT=5
 
 if [ -w ${PASSWD_FILE} ]; then
-	sed --in-place -E "s/^${PAM_USER}:(.*):[^:]*$/${PAM_USER}:\1:\/usr\/bin\/sudosh/" ${PASSWD_FILE}
+	flock -w $LOCK_WAIT_TIMEOUT "$PASSWD_LOCK" sed --in-place -E "s/^${PAM_USER}:(.*):[^:]*$/${PAM_USER}:\1:\/usr\/bin\/sudosh/" ${PASSWD_FILE}
 else
 	>&2 echo "Can't edit ${PASSWD_FILE} to update shell for ${PAM_USER}. sudosh will likely not work"
 fi
