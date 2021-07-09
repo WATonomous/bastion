@@ -11,4 +11,6 @@ for script in /etc/init.d/* ; do
   fi
 done
 
+# -D: run in foreground
+# -e: print errors to stderr
 exec /usr/sbin/sshd -D -e

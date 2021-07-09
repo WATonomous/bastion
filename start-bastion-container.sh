@@ -18,5 +18,5 @@ if [ ! -f "$SECRETS_PATH" ]; then
 fi
 
 docker-compose up --build -d
-docker-compose logs -f
+docker-compose logs --timestamps -f
 
