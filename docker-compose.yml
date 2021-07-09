@@ -8,9 +8,15 @@ services:
         environment:
             - MFA_PROVIDER=none
         volumes:
-            - '/etc/passwd:/etc/passwd.host:ro'
-            - '/etc/shadow:/etc/shadow:ro'
-            - '/etc/group:/etc/group:ro'
+            # Files required by the guest are
+            # - /etc/passwd
+            # - /etc/shadow,
+            # - /etc/group.
+            # Mounting the entire /etc instead of the individual files so that
+            # changes to the files can reflect in the container:
+            # https://stackoverflow.com/a/53548078
+            # https://github.com/moby/moby/issues/15793#issuecomment-512913198
+            - '/etc:/etc.host:ro'
             - '/home:/home'
             - './secrets/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key:ro'
             - './secrets/ssh_host_rsa_key.pub:/etc/ssh/ssh_host_rsa_key.pub:ro'

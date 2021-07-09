@@ -1,6 +1,11 @@
 #!/bin/bash
 
-PASSWD_IN=/etc/passwd.host
+# This script copies /etc/passwd, /etc/shadow, /etc/group from the host to the
+# guest, and transforming them as needed.
+
+DIRECT_COPY_SRC=(/etc.host/shadow /etc.host/group)
+DIRECT_COPY_DEST=(/etc/shadow /etc/group)
+PASSWD_IN=/etc.host/passwd
 PASSWD_FILE=/etc/passwd
 PASSWD_LOCK="/var/lock/`basename ${PASSWD_FILE}`"
 LOCK_WAIT_TIMEOUT=5
@@ -11,6 +16,11 @@ if [ -f "${PASSWD_IN}" ]; then
 	echo "- Watching ${PASSWD_IN} for changes"
 	while true; do
 		flock -w $LOCK_WAIT_TIMEOUT "$PASSWD_LOCK" /usr/bin/enforce-shell /usr/bin/sudosh "$PASSWD_IN" "$PASSWD_FILE"
+		# bash array syntax
+		# https://stackoverflow.com/a/30227814
+		for i in "${!DIRECT_COPY_SRC[@]}"; do
+			cp ${DIRECT_COPY_SRC[i]} ${DIRECT_COPY_DEST[i]}
+		done
 		sleep 5
 	done &
 fi
