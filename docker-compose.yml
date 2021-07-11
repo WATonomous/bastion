@@ -24,8 +24,8 @@ services:
         dns:
             # wato cluster DNS
             - 10.0.50.254
-            # UWaterloo DNS
-            - 129.97.2.1
-            - 129.97.2.2
+            # Public DNS
+            - 1.1.1.1
+            - 1.0.0.1
         restart: always
 
