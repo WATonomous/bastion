@@ -84,9 +84,9 @@ Subsystem	sftp	/usr/lib/ssh/sftp-server -l VERBOSE
 
 ForceCommand /usr/bin/fc
 
-# Example of overriding settings on a per-user basis
-#Match User anoncvs
-#	X11Forwarding no
-#	AllowTcpForwarding no
-#	PermitTTY no
-#	ForceCommand cvs server
+# Overriding settings on a per-user basis
+Match User connection_test
+	X11Forwarding no
+	AllowTcpForwarding no
+	ForceCommand echo The SSH connection is working as of `date "+%Y-%m-%dT%H:%M:%S%:z"`
+
