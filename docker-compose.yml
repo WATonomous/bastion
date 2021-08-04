@@ -1,4 +1,4 @@
-version: '3.9'
+version: '2'
 services:
     bastion:
         image: wato-bastion
@@ -21,11 +21,33 @@ services:
             - './secrets/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key:ro'
             - './secrets/ssh_host_rsa_key.pub:/etc/ssh/ssh_host_rsa_key.pub:ro'
         hostname: wato-bastion-secure
+        networks: [ipv6network]
         dns:
             # wato cluster DNS
             - 10.0.50.254
             # Public DNS
             - 1.1.1.1
             - 1.0.0.1
-        restart: always
+        restart: unless-stopped
+    ipv6nat:
+        image: robbertkl/ipv6nat
+        command: -debug -cleanup
+        restart: unless-stopped
+        cap_drop: [ ALL ]
+        cap_add:
+            - NET_ADMIN
+            - NET_RAW
+            - SYS_MODULE
+        network_mode: host
+        volumes:
+            - '/var/run/docker.sock:/var/run/docker.sock:ro'
+            - '/lib/modules:/lib/modules:ro'
+networks:
+    ipv6network:
+        driver: bridge
+        enable_ipv6: true
+        ipam:
+            driver: default
+            config:
+                - subnet: fd00:dead:beef::/48
 
