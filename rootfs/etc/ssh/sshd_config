@@ -24,7 +24,7 @@ LoginGraceTime 2m
 PermitRootLogin yes
 PermitUserRC no
 StrictModes no
-MaxAuthTries 6
+MaxAuthTries 20
 MaxSessions 10
 
 PubkeyAuthentication yes
