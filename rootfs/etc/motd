@@ -9,16 +9,17 @@
 
 Welcome to the WATonomous bastion host! This is a hardened machine that serves
 as an entrypoint to our servers that sit behind a firewall. We are working on
-a server status page. In the mean time here are the commonly-used VMs that you
-can access:
+a VM summary. In the mean time here are the commonly-used VMs that you can
+access:
+
 - thor-ubuntu1.watocluster.local
 - delta-ubuntu1.watocluster.local
 - tr-ubuntu1.watocluster.local
 - wato2-ubuntu1.watocluster.local
 - wato3-ubuntu1.watocluster.local
 
-You can check whether each VM is up by going to https://status.watonomous.ca
-in your browser or attempting to SSH into them.
+You can check whether a VM is up by going to https://status.watonomous.ca
+in your browser or attempting to SSH into it.
 
 WARNING: Unauthorized access to this system is forbidden and will be
 prosecuted. By accessing this system, you agree that your actions
