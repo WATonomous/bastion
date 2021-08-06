@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 REQUIRED_SHELL="$1"
 PASSWD_IN="$2"
@@ -10,8 +10,17 @@ if [ -f "$PASSWD_OUT" ] && [ ! -w "$PASSWD_OUT" ]; then
 		exit 1
 fi
 
+tmpdir=$(mktemp -d -t ci-$(date "+%Y-%m-%dT%H:%M:%S%:z")-XXXXXXXXXX)
+chmod 700 $tmpdir # make sure it's only accessible by us
+
+tmpfile="$tmpdir/passwd"
+
 # Escaping for regex: https://stackoverflow.com/a/2705678
 ESCAPED_SHELL=$(printf '%s\n' "$REQUIRED_SHELL" | sed -e 's/[\/&]/\\&/g')
 
-sed -E "/(\/usr\/sbin\/nologin|\/bin\/false|\/bin\/sync|\/usr\/sbin\/shutdown)$/! s/^(.*):[^:]*$/\1:$ESCAPED_SHELL/" "$PASSWD_IN" > "$PASSWD_OUT"
+sed -E "/(\/usr\/sbin\/nologin|\/bin\/false|\/bin\/sync|\/usr\/sbin\/shutdown)$/! s/^(.*):[^:]*$/\1:$ESCAPED_SHELL/" "$PASSWD_IN" > "$tmpfile"
+
+chmod 644 $tmpfile # set the right permissions for /etc/passwd
+mv "$tmpfile" "$PASSWD_OUT"
+rm -rf "$tmpdir"
 
