@@ -21,7 +21,9 @@ if [ -z "${PAM_USER}" ]; then
   exit 1
 fi
 
-SUDOERS_FILE="/etc/sudoers.d/sudosh-${PAM_USER}"
+# Replace all dots with underscores because sudo skips files containing
+# ".": https://unix.stackexchange.com/a/563734
+SUDOERS_FILE="/etc/sudoers.d/sudosh-${PAM_USER//\./_}"
 
 if [ ! -f "${SUDOERS_FILE}" ]; then
   # Allow users to sudo to themselves; this does NOT allow root access
