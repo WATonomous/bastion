@@ -28,6 +28,11 @@ services:
             # Public DNS
             - 1.1.1.1
             - 1.0.0.1
+        logging:
+          driver: "syslog"
+          options:
+            syslog-facility: "auth"
+            tag: "docker-bastion"
         restart: unless-stopped
     ipv6nat:
         image: robbertkl/ipv6nat
